@@ -51,6 +51,19 @@ const actions = {
                     context.commit(mutationTypes.getArticleFailed)
                 })
         })
+    },
+    [actionsTypes.deleteArticle]: (context, { slug }) => {
+        return new Promise(resolve => {
+            context.commit(mutationTypes.deleteArticleStart, slug);
+            articleApi.deleteArticle(slug)
+                .then(() => {
+                    context.commit(mutationTypes.deleteArticleSuccess);
+                    resolve();
+                })
+                .catch(() => {
+                    context.commit(mutationTypes.deleteArticleFailed)
+                })
+        })
     }
 }
 

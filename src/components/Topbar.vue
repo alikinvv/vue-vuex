@@ -18,7 +18,7 @@
         <template v-if="isLoggedIn">
           <li class="nav-item">
             <router-link
-              :to="{name: 'globalFeed'}"
+              :to="{name: 'createArticle'}"
               class="nav-link"
               active-class="active"
             >
@@ -27,7 +27,7 @@
           </li>
           <li class="nav-item">
             <router-link
-              :to="{name: 'globalFeed'}"
+              :to="{name: 'settings'}"
               class="nav-link"
               active-class="active"
             >

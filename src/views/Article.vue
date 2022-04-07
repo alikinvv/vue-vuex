@@ -28,7 +28,10 @@
               <i class="ion-edit"></i>
               Edit Article
             </router-link>
-            <button class="btn btn-outline-danger btn-sm">
+            <button
+              class="btn btn-outline-danger btn-sm"
+              @click="deleteArticle"
+            >
               <i class="ion-trash-a"></i>
               Delete Article
             </button>
@@ -44,7 +47,7 @@
         <div class="col-xs-12">
           <p>{{ article.body }}</p>
 
-          TAGLIST
+          <app-article-tags :tags="article.tagList" />
         </div>
       </div>
     </div>
@@ -57,12 +60,14 @@ import {getterTypes as authGetterTypes} from '@/store/modules/auth';
 import {mapState, mapGetters} from 'vuex';
 import appLoading from '@/components/Loading';
 import appError from '@/components/Error';
+import appArticleTags from '@/components/ArticleTags';
 
 export default {
   name: 'appArticle',
-  conponents: {
+  components: {
     appLoading,
     appError,
+    appArticleTags,
   },
   computed: {
     ...mapState({
@@ -85,6 +90,17 @@ export default {
     this.$store.dispatch(articleActionTypes.getArticle, {
       slug: this.$route.params.slug,
     });
+  },
+  methods: {
+    deleteArticle() {
+      this.$store
+        .dispatch(articleActionTypes.deleteArticle, {
+          slug: this.$route.params.slug,
+        })
+        .then(() => {
+          this.$route.push({name: 'globalFeed'});
+        });
+    },
   },
 };
 </script>

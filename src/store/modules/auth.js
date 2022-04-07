@@ -21,6 +21,12 @@ export const mutationTypes = {
     getCurrentUserStart: '[auth] getCurrentUserStart',
     getCurrentUserSuccess: '[auth] getCurrentUserSuccess',
     getCurrentUserFailed: '[auth] getCurrentUserFailed',
+
+    updateCurrentUserStart: '[auth] updateCurrentUserStart',
+    updateCurrentUserSuccess: '[auth] updateCurrentUserSuccess',
+    updateCurrentUserFailed: '[auth] updateCurrentUserFailed',
+
+    logout: '[auth] logout'
 }
 
 const mutations = {
@@ -65,12 +71,25 @@ const mutations = {
         state.currentUser = null;
         state.isLoggedIn = false;
     },
+
+    [mutationTypes.updateCurrentUserStart]() { },
+    [mutationTypes.updateCurrentUserSuccess](state, payload) {
+        state.currentUser = payload;
+    },
+    [mutationTypes.updateCurrentUserFailed]() { },
+
+    [mutationTypes.logout](state) {
+        state.currentUser = null;
+        state.isLoggedIn = false;
+    },
 }
 
 export const actionTypes = {
     register: '[auth] register',
     login: '[auth] login',
     getCurrentUser: '[auth] getCurrentUser',
+    updateCurrentUser: '[auth] updateCurrentUser',
+    logout: '[auth] logout',
 }
 
 export const getterTypes = {
@@ -136,6 +155,29 @@ const actions = {
                 .catch(() => {
                     context.commit(mutationTypes.getCurrentUserFailed);
                 })
+        })
+    },
+
+    [actionTypes.updateCurrentUser](context, { currentUserInput }) {
+        return new Promise(resolve => {
+            context.commit(mutationTypes.updateCurrentUserStart)
+            authAPI
+                .updateCurrentUser(currentUserInput)
+                .then(user => {
+                    context.commit(mutationTypes.updateCurrentUserSuccess, user);
+                    resolve(user);
+                })
+                .catch(result => {
+                    context.commit(mutationTypes.updateCurrentUserFailed, result.response.data.errors);
+                })
+        })
+    },
+
+    [actionTypes.logout](context) {
+        return new Promise(resolve => {
+            setItem('accessToken', '');
+            context.commit(mutationTypes.logout);
+            resolve();
         })
     }
 }

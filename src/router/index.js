@@ -5,6 +5,9 @@ import TagFeed from '../views/TagFeed';
 import Register from '@/views/Register';
 import Login from '@/views/Login';
 import Article from '@/views/Article';
+import CreateArticle from '@/views/CreateArticle';
+import EditArticle from '@/views/EditArticle';
+import Settings from '@/views/Settings';
 
 const routes = [
   {
@@ -35,7 +38,7 @@ const routes = [
   {
     path: '/articles/new',
     name: 'createArticle',
-    component: GlobalFeed,
+    component: CreateArticle,
   },
   {
     path: '/article/:slug',
@@ -45,12 +48,12 @@ const routes = [
   {
     path: '/article/:slug/edit',
     name: 'editArticle',
-    component: GlobalFeed,
+    component: EditArticle,
   },
   {
     path: '/settings',
     name: 'settings',
-    component: Register,
+    component: Settings,
   },
   {
     path: '/register',

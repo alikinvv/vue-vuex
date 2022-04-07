@@ -27,7 +27,13 @@
             </router-link>
             <span class="date">{{ article.createdAt }}</span>
           </div>
-          <div class="pull-xs-right">ADD TO FAVORITES</div>
+          <div class="pull-xs-right">
+            <app-add-to-favorites
+              is-favorited="article.favorited"
+              :article-slug="article.slug"
+              :favorites-count="article.favoritesCount"
+            />
+          </div>
         </div>
         <router-link
           :to="{name: 'article', params: {slug: article.slug}}"
@@ -36,6 +42,7 @@
           <h1>{{ article.title }}</h1>
           <p>{{ article.description }}</p>
           <span>Read more</span>
+          <app-article-tags :tags="article.tagList" />
         </router-link>
       </div>
       <app-pagination
@@ -56,6 +63,8 @@ import {limit} from '@/helpers/vars';
 import {stringify, parseUrl} from 'query-string';
 import appLoading from '@/components/Loading';
 import appError from '@/components/Error';
+import appArticleTags from '@/components/ArticleTags';
+import appAddToFavorites from '@/components/AddToFavorites';
 
 export default {
   name: 'appFeed',
@@ -69,6 +78,8 @@ export default {
     appPagination,
     appLoading,
     appError,
+    appArticleTags,
+    appAddToFavorites,
   },
   data() {
     return {
